@@ -16,7 +16,7 @@ The tool is intended to have a clinical focus, in that it is intended to inform 
 
 ## Awesome Logo
 
-![](logo_size.png)
+![](https://github.com/collaborativebioinformatics/GeneVar/blob/main/logo_size.jpg)
 
 ## Website (if applicable)
 
