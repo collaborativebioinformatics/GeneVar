@@ -1,6 +1,12 @@
 # GeneVar
 
-Draft flowchart:
+## Goal
+
+Develop a tool to facilitate a gene-centered view of human structural variants, which takes as input a gene name or id and produce a report / file / genome browser session that informs the user of all structural variants overlapping the gene and any non-coding regulatory elements affecting expression of the gene.
+
+The tool is intended to have a clinical focus, in that it is intended to inform the interpretation of structural variants pertaining to the gene name provided by the user. 
+
+## Draft flowchart
 
 ![](GeneVar-flowchart.png)
 
