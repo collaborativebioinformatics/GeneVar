@@ -1,5 +1,9 @@
 # GeneVar
 
+Draft flowchart:
+
+![](GeneVar-flowchart.png)
+
 ## Please cite our work -- here is the ICMJE Standard Citation:
 
 ### ...and a link to the DOI:
