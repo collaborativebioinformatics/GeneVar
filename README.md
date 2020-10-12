@@ -19,6 +19,8 @@ We (will) provide a script or a set of commands that were used to run each modul
 
 *These are far from being set in stone, please update along the way.*
 
+We performed functional annotation of all variants using snpEff V4.3T and SnpEff using the GRCh38 database (including Nextprot and Motif), dbSNFP v2.9, dbSNP b150 GRCh38, and ClinVar GRCh38. We obtained population frequency estimates from gnomAD. To visualize the variant-level we used Genome Browser, we included coverage information from gnomAD database (123,136 exome sequences). We further integrated tissue-specific gene expression profiles for xxx tissues from the GTEx resource (https://gtexportal.org/home/datasets). 
+
 ### Link dbVar SVs to genes
 
 - Input: 
