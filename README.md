@@ -16,7 +16,7 @@ The tool is intended to have a clinical focus, in that it is intended to inform 
 
 ## Awesome Logo
 
-### You can make a free DOI with zenodo <link>
+![](logo_size.png)
 
 ## Website (if applicable)
 
