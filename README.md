@@ -27,7 +27,7 @@ After entering the gene name (HGNC, Ensembl gene (ENSG), or transcript (ENST) id
 
 Variant annotation table. Each variant has been extensively annotated and aggregated in a customizable table. By default, allele frequency is reported based on gnomAD genomes and exomes, and amino acid change, impact and functional consequence are shown. All information can be downloaded in tabular form. 
 
-The webpage, including data storage, runs on a dual core server with 4 Gb RAM and needs less than 30 Gb of storage
+The webpage, including data storage, runs on a one core server with one Gb RAM and needs less than 1 Gb of storage
 
 Screenshot of the app prototype:
 
