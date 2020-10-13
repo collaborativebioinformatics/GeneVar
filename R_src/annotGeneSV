@@ -1,0 +1,36 @@
+options(stringsAsFactors = F)
+args = commandArgs(TRUE)
+geneName = args[1]
+geneChr = args[2]
+geneStart = as.numeric(args[3])
+geneEnd = as.numeric(args[4])
+SVFile = args[5]
+annotationFile = args[6]
+
+getSVAndAnnotation <- function(geneName,geneChr,geneStart,geneEnd,SVFile,annotationFile) {
+  gzFile = gzfile(SVFile,'rt')  
+  SVTable = read.table(file = gzFile, header = F, sep = '\t', quote = "")
+  close(gzFile)
+  SVTable[,2] = as.numeric(SVTable[,2])
+  SVTable[,3] = as.numeric(SVTable[,3])
+  SVTable = SVTable[!is.na(SVTable[,2]+SVTable[,3]),]
+  minPos = sapply(1:nrow(SVTable), function(x) min(SVTable[x,2:3]))
+  maxPos = sapply(1:nrow(SVTable), function(x) max(SVTable[x,2:3]))
+  SVTable[,1] = paste('chr',SVTable[,1],sep='')
+  SVTable[,2] = minPos; SVTable[,3] = maxPos;
+  gzFile = gzfile(annotationFile,'rt')  
+  annotationTable = read.table(file = gzFile, header = F, sep = '\t', quote = "")
+  close(gzFile)
+  
+  SVChrTable = SVTable[SVTable[,1]==geneChr,]
+  SVgeneTable = SVChrTable[(((SVChrTable[,2]>geneEnd)|(SVChrTable[,3]<geneStart))==0),]
+  
+  eltType = paste(unique(annotationTable[which(annotationTable[,9]==paste('gene_id',geneName,sep = '=')),3]),collapse = ';')
+  
+  if (nrow(SVgeneTable)!=0) {
+    outputTSV = data.frame(variant_id = SVgeneTable[,4], gene_id = rep(geneName,nrow(SVgeneTable)), elt_type = rep(eltType,nrow(SVgeneTable)))
+    write.table(outputTSV, file=paste(SVFile,geneName,'tsv',sep = '.'), quote=FALSE, sep='\t', col.names = F, row.names = F)
+  }
+}
+
+getSVAndAnnotation(geneName,geneChr,geneStart,geneEnd,SVFile,annotationFile)
