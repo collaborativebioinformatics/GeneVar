@@ -1,7 +1,5 @@
 # GeneVar
 
-**Oct 13 Slides:** [GeneVar-oct13-methods.pdf](GeneVar-oct13-methods.pdf)
-
 ![](https://github.com/collaborativebioinformatics/GeneVar/blob/main/logo_size.jpg)
 
 ## Goal
@@ -22,12 +20,13 @@ We performed functional annotation of all variants using snpEff V4.3T with the G
 
 After entering the gene name (HGNC, Ensembl gene (ENSG), or transcript (ENST) identifier) in the search box on the homepage, you will be directed to the gene-specific page. (A) Averaged depth of coverage in the GnomAD dataset. (B) Gene expression profiles extracted from GTEx. (C) Variant table. By default, a subset of variant information is shown; columns of interest can be selected from the dropdown menu. Variant filtering can be customized using the search boxes below the header of each column. All data, including are available for download in a tab-delimited file.
 
-
 Variant annotation table. Each variant has been extensively annotated and aggregated in a customizable table. By default, allele frequency is reported based on gnomAD genomes and exomes, and amino acid change, impact and functional consequence are shown. All information can be downloaded in tabular form. 
-
 
 The webpage, including data storage, runs on a dual core server with 4 Gb RAM and needs less than 30 Gb of storage
 
+Screenshot of the app prototype:
+
+![](genevar-app-prototype.png)
 
 ### Link dbVar SVs to genes
 
