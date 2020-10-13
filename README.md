@@ -79,7 +79,7 @@ Use either a simple overlap (any base overlapping) or reciprocal overlap (typica
   - All dbVar SVs or subset of SVs for one gene (using SV<->gene link computed above).
   - ClinGen or pathogenic SNV/indels from ClinVar, etc
 - Output: 
-  - TSV with `variant_id` and TRUE/FALSE columns about their overlap. E.g.  `pathogenic_clinvar_sv`.
+  - TSV with `variant_id` and TRUE/FALSE columns about their overlap. E.g.  `pathogenic_clinvar_snv_indel`.
 
 Methods:
 Use either a simple overlap (any base overlapping) or reciprocal overlap (typically 50%).
