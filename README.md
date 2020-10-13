@@ -1,6 +1,6 @@
 # GeneVar
 
-![](https://github.com/collaborativebioinformatics/GeneVar/blob/main/genevar.png)
+![](https://github.com/collaborativebioinformatics/GeneVar/blob/main/genevar_logo_multicolor.jpg)
 
 ## Goal
 
