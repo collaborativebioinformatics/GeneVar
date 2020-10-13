@@ -5,6 +5,7 @@ import argparse
 import pandas as pd
 
 infile = ""
+infile_ = ""
 outpath = ""
 parser = argparse.ArgumentParser()
 parser.add_argument('-vcf','--vcf', help='Path to the gnomAD_SV vcf file', required=True)
@@ -13,19 +14,20 @@ args = vars(parser.parse_args())
 if "vcf.gz.vcf" in args['vcf']:
 	infile = args['vcf']
 	a = os.path.splitext(infile)
-	infile = a[0]
+	infile_ = a[0]
+	os.system("cp "+infile+" "+infile_)
 if ".csv" in args['out']:
 	outpath = args['out']
 else:
 	outpath = args['out']+".csv"
-print(infile)
+print(infile_)
 counter = 0
 flag = False
 chroms = []
 pos = []
 variant_ids = []
 AFs = []
-with gzip.open(infile, 'rb') as f:
+with gzip.open(infile_, 'rb') as f:
     for line in f:
         # print(line.decode().strip())
         l = line.decode().strip()
