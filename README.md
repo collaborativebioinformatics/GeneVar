@@ -14,11 +14,6 @@ The tool is intended to have a clinical focus, in that it is intended to inform 
 
 ## Methods
 
-Quick summary of the different modules. 
-We (will) provide a script or a set of commands that were used to run each module. 
-
-*These are far from being set in stone, please update along the way.*
-
 We performed functional annotation of all variants using snpEff V4.3T with the GRCh38 database (including Nextprot and Motif), dbSNFP v2.9, dbSNP b150 GRCh38, and ClinVar GRCh38. We obtained population frequency estimates from gnomAD. To visualize the variant-level we used Genome Browser, we included coverage information from gnomAD database (123,136 exome sequences). We further integrated tissue-specific gene expression profiles for xxx tissues from the GTEx resource (https://gtexportal.org/home/datasets). 
 
 ### Link dbVar SVs to genes
@@ -116,10 +111,9 @@ Some resources might require matching gene names.
   - TSV with variant allele frequencies
   - TSV with gene impact annotation
   - TSV from other modules
-- Output: Not sure exactly yet but could be
+- Output: 
   - ShinyApp to visualize data for one selected gene.
-  - One webpage per gene in some kind of static HTML website
-  - Some fancy browser, e.g. gnomAD-style
+
   
 Methods:
 TBD.
