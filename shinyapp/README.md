@@ -5,6 +5,7 @@ This will require R with the following packages:
 - dplyr
 - DT
 - ggplot2
+- shinydashboard
 
 A docker with these dependencies will be available soon.
 

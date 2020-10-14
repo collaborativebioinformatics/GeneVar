@@ -133,9 +133,9 @@ Some resources might require matching gene names.
 
   
 Methods:
-TBD.
-One option could be to use R+Shiny to deploy an app where the user can select a gene and visualize the SVs and stats.
-Another option could be to make a static website that could be deployed on this GitHub repo (e.g. [R-Markdown website](https://bookdown.org/yihui/rmarkdown/rmarkdown-site.html) where each "gene" page automatically produced by script of our doing).
+An application is implemented in R+Shiny where the user can select a gene and some filtering criteria for SVs (size and type).
+A page is loaded with a summary of the SVs overlapping the gene, a table listing all annotated SVs, and a graph showing the distribution of allele frequencies.
+
 
 ## Please cite our work -- here is the ICMJE Standard Citation:
 
