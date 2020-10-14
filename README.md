@@ -25,6 +25,15 @@ Next-generation sequencing provides the ability to sequence extended genomic reg
 
 ![](GeneVar-methods-overview.png)
 
+How it works
+GeneVar is a web page application. After entering the gene name (HGNC, Ensembl gene (ENSG), or transcript (ENST) identifier) in the search box on the homepage, you will be directed to the gene-specific page. (A) Averaged depth of coverage in the GnomAD dataset. (B) Gene expression profiles extracted from GTEx. (C) Variant table.
+By default, a subset of variant information is shown; columns of interest can be selected from the dropdown menu. Variant filtering can be customized using the search boxes below the header of each column. All data, including are available for download in a tab-delimited file. Variant annotation table. Each variant has been extensively annotated and aggregated in a customizable table. By default, allele frequency is reported based on gnomAD genomes and exomes, and amino acid change, impact and functional consequence are shots. Figure 1. 
+ 
+Software
+GeneVar is available on GitHub (https://github.com/collaborativebioinformatics/GeneVar). The repository provides detailed instructions for tool usage and installation. A bash script for an automated installation of the required dependencies is also provided. 
+
+The webpage, including data storage, runs on 1 core server with 1 Gb RAM and needs less than 1 Gb of st
+
 We performed functional annotation of all variants using snpEff V4.3T with the GRCh38 database (including Nextprot and Motif), dbSNFP v2.9, dbSNP b150 GRCh38, and ClinVar GRCh38. We obtained population frequency estimates from gnomAD. To visualize the variant-level we used Genome Browser, we included coverage information from gnomAD database (123,136 exome sequences). We further integrated tissue-specific gene expression profiles for 53 tissues from the GTEx resource (https://gtexportal.org/home/datasets).
 
 After entering the gene name (HGNC, Ensembl gene (ENSG), or transcript (ENST) identifier) in the search box on the homepage, you will be directed to the gene-specific page. (A) Averaged depth of coverage in the GnomAD dataset. (B) Gene expression profiles extracted from GTEx. (C) Variant table. By default, a subset of variant information is shown; columns of interest can be selected from the dropdown menu. Variant filtering can be customized using the search boxes below the header of each column. All data, including are available for download in a tab-delimited file.
