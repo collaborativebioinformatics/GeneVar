@@ -135,7 +135,8 @@ Some resources might require matching gene names.
 - Output: 
   - ShinyApp to visualize data for one selected gene.
 
-  
+See [shinyapp](shinyapp) fodler for the code and commands.
+
 Methods:
 An application is implemented in R+Shiny where the user can select a gene and some filtering criteria for SVs (size and type).
 A page is loaded with a summary of the SVs overlapping the gene, a table listing all annotated SVs, and a graph showing the distribution of allele frequencies.
