@@ -21,6 +21,10 @@ Next-generation sequencing provides the ability to sequence extended genomic reg
 
 ![](GeneVar-flowchart.png)
 
+## Results
+
+We have extracted info and build an app for chr21 and integrating dbVar, Gencode, ClinVar, gnomAD-SV. More moudles can be added.
+
 ## Methods
 
 ![](GeneVar-methods-overview.png)
