@@ -2,6 +2,10 @@
 
 ![](https://github.com/collaborativebioinformatics/GeneVar/blob/main/genevar_logo_multicolor_v2.jpg)
 
+## Demo
+
+Live demo [here](http://courtyard.gi.ucsc.edu:3210/)
+
 ## Goal
 
 Develop a tool to facilitate a gene-centered view of human structural variants, which takes as input a gene name or id and produce a report / file / genome browser session that informs the user of all structural variants overlapping the gene and any non-coding regulatory elements affecting expression of the gene.
@@ -31,7 +35,7 @@ The webpage, including data storage, runs on a one core server with one Gb RAM
 
 Screenshot of the app prototype:
 
-![](genevar-app-prototype.png)
+![](genevar-app-final.png)
 
 ### Link dbVar SVs to genes
 
