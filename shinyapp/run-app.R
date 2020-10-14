@@ -2,6 +2,7 @@ library(dplyr)
 library(shiny)
 library(DT)
 library(ggplot2)
+library(shinydashboard)
 
 ## read data (for now from the testdata folder) into a list
 data.files = c('af.tsv', 'all_variants.tsv', 'clinsnv_variants.tsv',
@@ -23,86 +24,82 @@ vars.df = data$all_variants %>%
   merge(data$clinsnv_variants, all.x=TRUE) %>%
   merge(data$af, all.x=TRUE)
 ## format columns for better DataTable experience
-vars.df = vars.df %>% mutate(type=factor(type), chr=factor(chr))
+vars.df = vars.df %>% mutate(type=factor(type), coord=paste0(chr, ':', start, '-', end), size=end-start) %>%
+  select(-chr, -start, -end) %>%
+  select(variant_id, coord, type, size, af, everything())
+svtypes = sort(unique(vars.df$type))
+svsize.max = max(vars.df$size)
 
-## function to compute gene-level stats and return HTML code
+## function to add links to the variant table
+dtify <- function(df){
+  df %>% mutate(variant_id=paste0('<a href="https://www.ncbi.nlm.nih.gov/dbvar/variants/', variant_id, '" target="_blank">', variant_id, '</a>'))
+}
 
-
-## app interface
-ui <- fluidPage(
-  titlePanel("GeneVar"),
-  sidebarLayout(
-    sidebarPanel(width=3, dataTableOutput('gene_search_table')),
-    mainPanel(
-      width=9,
-      fluidRow(htmlOutput('title'), br(), htmlOutput('gene_info')),
-      hr(),
-      fluidRow(dataTableOutput('vars_table')),
-      hr(),
-      fluidRow(htmlOutput('af_pre'), plotOutput('af_plot'))
-    )
+ui <- dashboardPage(
+  dashboardHeader(title='GeneVar'),
+  dashboardSidebar(
+    selectizeInput('gene_search', 'Gene', gene.df$gene_id),
+    checkboxGroupInput('svtypes', "SV type", svtypes, svtypes),
+    numericInput('size.min', 'Minimum SV size (bp)', 0, 0),
+    numericInput('size.max', 'Maximum SV size (bp)', svsize.max, svsize.max)
+  ),
+  dashboardBody(
+    htmlOutput('title'),
+    fluidRow(
+      ## A static infoBox
+      infoBoxOutput("sv_box"),
+      infoBoxOutput("path_sv_box")
+    ),
+    shiny::htmlOutput('omim_url', class='btn btn-default action-button shiny-bound-input'),
+    hr(),
+    dataTableOutput('vars_table'),
+    hr(),
+    h2('Allele frequency distribution'),
+    plotOutput('af_plot')
   )
 )
 
 ## server side of the app
 server <- function(input, output) {
-  ## dynamic tables
-  output$gene_search_table <- renderDataTable(
-    gene.df,
-    filter='top',
-    rownames=FALSE,
-    options=list(pageLength=15),
-    selection='single')
-  output$vars_table <- renderDataTable(
-    datatable({
-      ## if no gene was select, don't try to make a table
-      vars.sel = tibble()
-      if(!is.null(input$gene_search_table_rows_selected)){
-        sel.ii = input$gene_search_table_rows_selected
-        gene.sel = gene.df$gene_id[sel.ii]
-        message('Gene: ', gene.sel)
-        gene.var = data$gene_variants %>% filter(gene_id==gene.sel)
-        vars.sel = vars.df %>% filter(variant_id %in% gene.var$variant_id)
-      }
-      vars.sel
-    },
-    filter='top',
-    rownames=FALSE,
-    options=list(pageLength=15, searching=FALSE),
-    selection='single'))
+  ## reactive conductor to apply the filtering only once for all elements that need it
+  selVars <- reactive({
+    message('Gene: ', input$gene_search)
+    gene.var = data$gene_variants %>% filter(gene_id==input$gene_search)
+    vars.sel = vars.df %>% filter(variant_id %in% gene.var$variant_id,
+                                  type %in% input$svtypes,
+                                  size >= input$size.min,
+                                  size <= input$size.max)
+    vars.sel
+  })
   ## Text
   output$title = renderText({
-    sel.ii = input$gene_search_table_rows_selected
-    gene.sel = gene.df$gene_id[sel.ii]
-    paste0('<h1>', gene.sel, '</h1>')
+    paste0('<h1>', input$gene_search, '</h1>')
   })
-  output$af_pre = renderText({
-    if(!is.null(input$gene_search_table_rows_selected)){
-      return(as.character(h1('Allele frequency distribution')))
+  output$omim_url = renderText({
+    urls = data$ext_urls %>% filter(gene_id==input$gene_search)
+    if(!is.null(urls$omim_url)){
+      return(as.character(a('OMIM', href=urls$omim_url, target='_blank')))
     }
-    return(NULL)
+    return('')
   })
-  output$gene_info = renderText({
-    if(!is.null(input$gene_search_table_rows_selected)){
-      sel.ii = input$gene_search_table_rows_selected
-      gene.sel = gene.df$gene_id[sel.ii]
-      gene.var = data$gene_variants %>% filter(gene_id==gene.sel)
-      return(as.character(p('Number of SVs: ', nrow(gene.var))))
-    }
-    return(NULL)
+  ## boxes
+  output$sv_box <- renderInfoBox({
+    infoBox("SVs", nrow(selVars()), icon=icon("dna"), color="blue")
   })
+  output$path_sv_box <- renderInfoBox({
+    infoBox("Clinical SVs", sum(selVars()$pathogenic_clinvar_sv, na.rm=TRUE),
+            icon=icon("stethoscope"), color="red")
+  })
+  ## dynamic tables
+  output$vars_table <- renderDataTable(
+    datatable(dtify(selVars()),
+    filter='top',
+    rownames=FALSE,
+    escape=FALSE,
+    options=list(pageLength=15, searching=FALSE)))
   ## Graph
   output$af_plot = renderPlot({
-    ggp = NULL
-    if(!is.null(input$gene_search_table_rows_selected)){
-      sel.ii = input$gene_search_table_rows_selected
-      gene.sel = gene.df$gene_id[sel.ii]
-      message('Gene: ', gene.sel)
-      gene.var = data$gene_variants %>% filter(gene_id==gene.sel)
-      vars.sel = vars.df %>% filter(variant_id %in% gene.var$variant_id)
-      ggp = ggplot(vars.sel, aes(x=af)) + geom_histogram() + theme_bw() + xlab('allele frequency')
-    }
-    ggp
+    ggplot(selVars(), aes(x=af)) + geom_histogram() + theme_bw() + xlab('allele frequency')
   })
 }
 
