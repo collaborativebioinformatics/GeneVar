@@ -29,7 +29,7 @@ Here we present GeneVar an open access, gene centric data browser for structural
 ## Results
 
 At the end of the biocodathon, we have extracted info and build an app for chr21. 
-It and integrates dbVar, Gencode, ClinVar, gnomAD-SV. 
+It and integrates dbVar, GENCODE, ClinVar, gnomAD-SV. 
 More modules will be added in the future.
 
 ## Methods
@@ -86,7 +86,7 @@ We are considering two options:
 
 - Input: 
   - All dbVar SVs (BED file including a *variant id* column)
-  - Gene annotation: Gencode or Ensembl
+  - Gene annotation: GENCODE or Ensembl
 - Output: 
   - TSV with two columns: `variant_id`, `gene_id`
   - Variant ids and gene ids may repeat.
@@ -99,7 +99,7 @@ The latter should be much faster to get exactly the information we want.
 
 - Input:
   - All dbVar SVs or subset of SVs for one gene (using SV<->gene link computed above).
-  - Gene annotation: Gencode or Ensembl
+  - Gene annotation: GENCODE or Ensembl
 - Output: 
   - TSV with at least three columns: `variant_id`, `elt_type` (e.g. *UTR*, *exon*), `elt_info` (e.g. exon number)
 
@@ -192,7 +192,7 @@ A page is loaded with a summary of the SVs overlapping the gene, a table listing
    - dbVar GRCh38 from: https://ftp.ncbi.nlm.nih.gov/pub/dbVar/data/Homo_sapiens/by_assembly/GRCh38/vcf/GRCh38.variant_call.all.vcf.gz
    - Clinical SVs: https://ftp.ncbi.nlm.nih.gov/pub/dbVar/data/Homo_sapiens/by_study/tsv/nstd102.GRCh38.variant_call.tsv.gz
    - ClinVar *where did the 32Mb clinvar.vcf.gz come from?*
-   - Gencode v35: ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_35/gencode.v35.annotation.gff3.gz
+   - GENCODE v35: ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_35/gencode.v35.annotation.gff3.gz
 - GRCh37
    - dbVar GRCh37 from: https://ftp.ncbi.nlm.nih.gov/pub/dbVar/data/Homo_sapiens/by_assembly/GRCh37/vcf/GRCh37.variant_call.all.vcf.gz
    - gnomAD https://gnomad.broadinstitute.org
