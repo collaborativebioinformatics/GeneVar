@@ -4,7 +4,7 @@
 
 ## Demo
 
-Live demo [here](http://courtyard.gi.ucsc.edu:3210/)
+Please use this link to access the live demo [here](http://courtyard.gi.ucsc.edu:3210/)
 
 ## Goal
 
