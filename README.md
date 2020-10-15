@@ -188,10 +188,15 @@ A page is loaded with a summary of the SVs overlapping the gene, a table listing
 
 ## Data
 
-*LINKS TO DATA USED*
+- GRCh38
+   - dbVar GRCh38 from: https://ftp.ncbi.nlm.nih.gov/pub/dbVar/data/Homo_sapiens/by_assembly/GRCh38/vcf/GRCh38.variant_call.all.vcf.gz
+   - Clinical SVs: https://ftp.ncbi.nlm.nih.gov/pub/dbVar/data/Homo_sapiens/by_study/tsv/nstd102.GRCh38.variant_call.tsv.gz
+   - ClinVar *where did the 32Mb clinvar.vcf.gz come from?*
+   - Gencode v35: ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_35/gencode.v35.annotation.gff3.gz
+- GRCh37
+   - dbVar GRCh37 from: https://ftp.ncbi.nlm.nih.gov/pub/dbVar/data/Homo_sapiens/by_assembly/GRCh37/vcf/GRCh37.variant_call.all.vcf.gz
+   - gnomAD https://gnomad.broadinstitute.org
+- Gene
+   - OMIM https://www.ncbi.nlm.nih.gov/omim
 
-- dbVar GRCh37 from: `https://ftp.ncbi.nlm.nih.gov/pub/dbVar/data/Homo_sapiens/by_assembly/GRCh37/vcf/GRCh37.variant_call.all.vcf.gz`
-- dbVar GRCh38 from: https://ftp.ncbi.nlm.nih.gov/pub/dbVar/data/Homo_sapiens/by_assembly/GRCh38/
-- OMIM https://www.ncbi.nlm.nih.gov/omim
-- gnomAD https://gnomad.broadinstitute.org
 
