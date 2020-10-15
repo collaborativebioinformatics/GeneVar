@@ -13,6 +13,5 @@ While we prepare the real data, we can prepare the app using dummy data. See the
 
 ## Live version
 
-There must be a way to deploy the app using DNANexus. 
-We might also be able to deploy on https://www.shinyapps.io/ for free (for demo purposes). 
-In the meantime, there is a version if hosted at http://courtyard.gi.ucsc.edu:3210/
+After the biocodathon, we will deposit the demo app on https://www.shinyapps.io/.
+In the meantime, there is a version hosted at http://courtyard.gi.ucsc.edu:3210/
