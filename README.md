@@ -1,6 +1,6 @@
 # GeneVar
 
-![](https://github.com/collaborativebioinformatics/GeneVar/blob/main/genevar_logo_multicolor_v2.jpg)
+![](media/genevar_logo_multicolor_v2.jpg)
 
 ## Demo
 
@@ -12,44 +12,75 @@ Develop a tool to facilitate a **gene-centered view of human structural variants
 
 The tool is **intended to have a clinical focus**, in that it is intended to inform the interpretation of structural variants pertaining to the gene name provided by the user. 
 
-
 ## Introduction
-Next-generation sequencing provides the ability to sequence extended genomic regions or a whole-genome relatively cheaply and rapidly, making it a powerful technique to uncover the genetic architecture of diseases. However, there remain significant challenges, including interpreting and prioritizing the found variants and setting up the appropriate analysis pipeline to cover the necessary spectrum of genetic factors, which includes expansions, repeats, insertions/deletions (indels), structural variants and point mutations. For those outside the immediate field of genetics, a group that includes researchers, hospital staff, general practitioners, and increasingly, patients who have paid to have their genome sequenced privately, the interpretation of findings is particularly challenging. Although various tools are available to predict the pathogenicity of a protein-changing variant, they do not always agree, further compounding the problem. Furthermore, with the increasing availability of next-generation sequencing data, non-specialists, including health care professionals and patients, are obtaining their genomic information without a corresponding ability to analyse and interpret it as the relevance of novel or existing variants in genes is not always apparent. The same would be true of structural variant analysis, and its interpretation too requires care related to sample and platform selection, quality control, statistical analysis, results prioritisation, and replication strategy. Here we present GeneVar an open access, gene centric data browser for structural variant analysis.  
 
+Next-generation sequencing provides the ability to sequence extended genomic regions or a whole-genome relatively cheaply and rapidly, making it a powerful technique to uncover the genetic architecture of diseases. 
+However, there remain significant challenges, including interpreting and prioritizing the found variants and setting up the appropriate analysis pipeline to cover the necessary spectrum of genetic factors, which includes expansions, repeats, insertions/deletions (indels), structural variants and point mutations. 
+For those outside the immediate field of genetics, a group that includes researchers, hospital staff, general practitioners, and increasingly, patients who have paid to have their genome sequenced privately, the interpretation of findings is particularly challenging. 
+Although various tools are available to predict the pathogenicity of a protein-changing variant, they do not always agree, further compounding the problem. 
+Furthermore, with the increasing availability of next-generation sequencing data, non-specialists, including health care professionals and patients, are obtaining their genomic information without a corresponding ability to analyse and interpret it as the relevance of novel or existing variants in genes is not always apparent. 
+The same would be true of structural variant analysis, and its interpretation too requires care related to sample and platform selection, quality control, statistical analysis, results prioritisation, and replication strategy. 
+Here we present GeneVar an open access, gene centric data browser for structural variant analysis. 
 
 ## Draft flowchart
 
-![](GeneVar-flowchart.png)
+![](media/GeneVar-flowchart.png)
 
 ## Results
 
-We have extracted info and build an app for chr21 and integrating dbVar, Gencode, ClinVar, gnomAD-SV. More moudles can be added.
+At the end of the biocodathon, we have extracted info and build an app for chr21. 
+It and integrates dbVar, Gencode, ClinVar, gnomAD-SV. 
+More modules will be added in the future.
 
 ## Methods
 
-![](GeneVar-methods-overview.png)
+![](media/GeneVar-methods-overview.png)
+
+Scripts to prepare the data available in the [scripts](scripts) folder.
+Code to run the Shiny app in the [shinyapp](shinyapp) folder.
 
 ## How it works
-GeneVar is a web page application. After entering the gene name (HGNC, Ensembl gene (ENSG), or transcript (ENST) identifier) in the search box on the homepage, you will be directed to the gene-specific page. (A) Averaged depth of coverage in the GnomAD dataset. (B) Gene expression profiles extracted from GTEx. (C) Variant table.
-By default, a subset of variant information is shown; columns of interest can be selected from the dropdown menu. Variant filtering can be customized using the search boxes below the header of each column. All data, including are available for download in a tab-delimited file. Variant annotation table. Each variant has been extensively annotated and aggregated in a customizable table. By default, allele frequency is reported based on gnomAD genomes and exomes, and amino acid change, impact and functional consequence are shots. Figure 1. 
- 
+
+GeneVar is a web page application. 
+After entering the gene name (HGNC, Ensembl gene (ENSG), or transcript (ENST) identifier) in the search box on the homepage, you will be directed to the gene-specific page containing:
+1. Gene-level summary with number of SVs, number of clinival SVs or SVs overlapping clinical SNVs.
+1. Links to the gene's page on OMIM, GTEx, gnomAD.
+2. A dynamic table with the annotated variants overlapping the gene.
+3. A graph with the distribution of the allele frequency for variants matched with gnomAD-SV (50% reciprocal overlap).
+
+The profile of the SV to consider, such as type and size range, can be specified on the side bar.
+Each column in the dynamic table can be "searched" into or reorder dynamically.
+All data used by the app will be available for download in tab-delimited files. 
+By default, allele frequency is reported based on gnomAD genomes and exomes.
+
 ## Software
-GeneVar is available on GitHub (https://github.com/collaborativebioinformatics/GeneVar). The repository provides detailed instructions for tool usage and installation. A bash script for an automated installation of the required dependencies is also provided. 
 
-The webpage, including data storage, runs on 1 core server with 1 Gb RAM and needs less than 1 Gb of st
+GeneVar is available on GitHub (https://github.com/collaborativebioinformatics/GeneVar). 
+The repository provides detailed instructions for tool usage and installation. 
+A bash script for an automated installation of the required dependencies will also be provided. 
+For now, the webpage runs on 1 core server with 1 Gb RAM and needs less than 1 Gb of storage.
 
-## Methods summary
-We performed functional annotation of all variants using snpEff V4.3T with the GRCh38 database (including Nextprot and Motif), dbSNFP v2.9, dbSNP b150 GRCh38, and ClinVar GRCh38. We obtained population frequency estimates from gnomAD. To visualize the variant-level we used Genome Browser, we included coverage information from gnomAD database (123,136 exome sequences). We further integrated tissue-specific gene expression profiles for 53 tissues from the GTEx resource (https://gtexportal.org/home/datasets).
+![](media/genevar-app-final.png)
 
-After entering the gene name (HGNC, Ensembl gene (ENSG), or transcript (ENST) identifier) in the search box on the homepage, you will be directed to the gene-specific page. (A) Averaged depth of coverage in the GnomAD dataset. (B) Gene expression profiles extracted from GTEx. (C) Variant table. By default, a subset of variant information is shown; columns of interest can be selected from the dropdown menu. Variant filtering can be customized using the search boxes below the header of each column. All data, including are available for download in a tab-delimited file.
+## Future features
 
-Variant annotation table. Each variant has been extensively annotated and aggregated in a customizable table. By default, allele frequency is reported based on gnomAD genomes and exomes, and amino acid change, impact and functional consequence are shown. All information can be downloaded in tabular form. 
+For now we link to these gene-centered resources.
+In the future we could directly include some of their data:
+- Averaged depth of coverage for sequencing experiments, e.g. from the gnomAD dataset
+- Gene expression profiles extracted from GTEx.
 
-The webpage, including data storage, runs on a one core server with one Gb RAM and needs less than 1 Gb of storage
+The gene impact annotation could be improve, for example with amino acid change prediction, by integrating the following tools:
+- [SnpEff](https://pcingola.github.io/SnpEff/)
+- [AnnotSV](https://lbgi.fr/AnnotSV/)
+- [OpenCRAVAT](https://opencravat.org/)
 
-Screenshot of the app prototype:
-
-![](genevar-app-final.png)
+A different data exchange strategy will be necessary to scale up to the full genome and integrate more and more annotation.
+The TSV files quickly become extremely large.
+We are considering two options:
+1. Tabix-indexed variants and on-the-fly comparison in the Shiny app.
+   - Integrate all variant-level annotation into one BED-like file indexed for fast accession where each variant is present only once. For example, variant coordinates, allele frequencies, clinical flags.
+   - The comparison with the gene annotation would be done on-the-fly in the app.
+2. Switch to databases as suggested [here](https://shiny.rstudio.com/articles/overview.html).
 
 ### Link dbVar SVs to genes
 
@@ -149,80 +180,14 @@ Some resources might require matching gene names.
 - Output: 
   - ShinyApp to visualize data for one selected gene.
 
-See [shinyapp](shinyapp) fodler for the code and commands.
+See [shinyapp](shinyapp) folder for the code and commands.
 
 Methods:
 An application is implemented in R+Shiny where the user can select a gene and some filtering criteria for SVs (size and type).
 A page is loaded with a summary of the SVs overlapping the gene, a table listing all annotated SVs, and a graph showing the distribution of allele frequencies.
 
+## Data
 
-## Please cite our work -- here is the ICMJE Standard Citation:
+*LINKS TO DATA USED*
 
-### ...and a link to the DOI:
-
-## Website (if applicable)
-
-## Intro statement
-
-## What's the problem?
-
-## Why should we solve it?
-
-# What is <this software>?
-
-Overview Diagram
-
-# How to use <this software>
-
-# Software Workflow Diagram
-
-# File structure diagram 
-#### _Define paths, variable names, etc_
-
-# Installation options:
-
-We provide two options for installing <this software>: Docker or directly from Github.
-
-### Docker
-
-The Docker image contains <this software> as well as a webserver and FTP server in case you want to deploy the FTP server. It does also contain a web server for testing the <this software> main website (but should only be used for debug purposes).
-
-1. `docker pull ncbihackathons/<this software>` command to pull the image from the DockerHub
-2. `docker run ncbihackathons/<this software>` Run the docker image from the master shell script
-3. Edit the configuration files as below
-
-### Installing <this software> from Github
-
-1. `git clone https://github.com/NCBI-Hackathons/<this software>.git`
-2. Edit the configuration files as below
-3. `sh server/<this software>.sh` to test
-4. Add cron job as required (to execute <this software>.sh script)
-
-### Configuration
-
-```Examples here```
-
-# Testing
-
-We tested four different tools with <this software>. They can be found in [server/tools/](server/tools/) . 
-
-# Additional Functionality
-
-### DockerFile
-
-<this software> comes with a Dockerfile which can be used to build the Docker image.
-
-  1. `git clone https://github.com/NCBI-Hackathons/<this software>.git`
-  2. `cd server`
-  3. `docker build --rm -t <this software>/<this software> .`
-  4. `docker run -t -i <this software>/<this software>`
-  
-### Website
-
-There is also a Docker image for hosting the main website. This should only be used for debug purposes.
-
-  1. `git clone https://github.com/NCBI-Hackathons/<this software>.git`
-  2. `cd Website`
-  3. `docker build --rm -t <this software>/website .`
-  4. `docker run -t -i <this software>/website`
-  
+- dbVar GRCh37 from: `https://ftp.ncbi.nlm.nih.gov/pub/dbVar/data/Homo_sapiens/by_assembly/GRCh37/vcf/GRCh37.variant_call.all.vcf.gz`
