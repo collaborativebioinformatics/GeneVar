@@ -191,3 +191,6 @@ A page is loaded with a summary of the SVs overlapping the gene, a table listing
 *LINKS TO DATA USED*
 
 - dbVar GRCh37 from: `https://ftp.ncbi.nlm.nih.gov/pub/dbVar/data/Homo_sapiens/by_assembly/GRCh37/vcf/GRCh37.variant_call.all.vcf.gz`
+- OMIM https://www.ncbi.nlm.nih.gov/omim
+- gnomAD https://gnomad.broadinstitute.org
+
