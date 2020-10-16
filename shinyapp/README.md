@@ -1,4 +1,4 @@
-Run the `run-app.R` script to launch the Shiny App.
+Run the `shiny::runApp()` in this folder to launch the Shiny App locally.
 
 This will require R with the following packages:
 - shiny
@@ -9,9 +9,20 @@ This will require R with the following packages:
 
 A docker with these dependencies will be available soon.
 
-While we prepare the real data, we can prepare the app using dummy data. See the [testdata](testdata) folder.
+The [testdata](testdata) was used while preparing the real data.
 
 ## Live version
 
-After the biocodathon, we will deposit the demo app on https://www.shinyapps.io/.
-In the meantime, there is a version hosted at http://courtyard.gi.ucsc.edu:3210/
+The demo app is set up on https://www.shinyapps.io/ at https://jmonlong.shinyapps.io/GeneVar/
+
+To set it up, run the following in this folder:
+
+```r
+library(rsconnect)
+rsconnect::setAccountInfo(name='jmonlong',
+			  token='<TOKEN>',
+			  secret='<SECRET>')
+deployApp(appName='GeneVar')
+```
+
+`<TOKEN>` and `<SECRET>` provided on the shinyapps.io "Tokens" account tab.
