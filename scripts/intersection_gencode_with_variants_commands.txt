@@ -1,0 +1,5 @@
+gunzip gencode.v35.annotation.gff3.gz
+perl parse_gencode.pl # will produce a number of *annotation.txt files
+perl reformat_tsv_variant_file.pl # if you haven't already run this
+ls *annotation.txt | while read FILE; do /hgsc_software/BEDTools/latest/bin/intersectBed -wao -a all_variants_chr21.bed -b $FILE | grep -v "\s\-1\s" > ${FILE}_info.txt; done
+ls *annotation.txt_info.txt | while read FILE; do cut -f4,7,13 $FILE | sed 's/.*dbVarID=//' | sed 's/\;transcript.*$//' | sed 's/ID.*gene_id=//' | sort -u >> dbvar_gencode.tsv;done
