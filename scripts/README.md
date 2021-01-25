@@ -1,3 +1,9 @@
+## Trace
+
+```
+snakemake -n dbvar38.ann.tsv.gz
+```
+
 ## Subset dbVar variant to one chromosome
 
 We used a subset of the data to develop the app: variants and genes in chr21.

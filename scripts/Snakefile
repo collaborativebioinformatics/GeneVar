@@ -1,0 +1,131 @@
+CHRS = [str(ch) for ch in range(1,23)]
+CHRS += ['X', 'Y']
+
+CHRS = [1, 2]
+
+DBVAR37_URL = 'https://ftp.ncbi.nlm.nih.gov/pub/dbVar/data/Homo_sapiens/by_assembly/GRCh37/vcf/GRCh37.variant_call.all.vcf.gz'
+DBVAR38_URL = 'https://ftp.ncbi.nlm.nih.gov/pub/dbVar/data/Homo_sapiens/by_assembly/GRCh38/vcf/GRCh38.variant_call.all.vcf.gz'
+GNOMAD_URL = 'https://azureopendatastorage.blob.core.windows.net/gnomad/papers/2019-sv/gnomad_v2.1_sv.sites.bed.gz'
+GENCODE_URL = 'ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_35/gencode.v35.annotation.gff3.gz'
+CLINSV_URL = 'https://ftp.ncbi.nlm.nih.gov/pub/dbVar/data/Homo_sapiens/by_study/tsv/nstd102.GRCh38.variant_call.tsv.gz'
+PLI_URL = 'https://azureopendatastorage.blob.core.windows.net/gnomad/release/2.1.1/constraint/gnomad.v2.1.1.lof_metrics.by_gene.txt.bgz'
+CLINVAR_URL = 'https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz'
+
+DBVAR37 = DBVAR37_URL.split('/')[-1]
+DBVAR38 = DBVAR38_URL.split('/')[-1]
+GNOMAD = GNOMAD_URL.split('/')[-1]
+GENCODE = GENCODE_URL.split('/')[-1]
+CLINSV = CLINSV_URL.split('/')[-1]
+PLI = PLI_URL.split('/')[-1]
+CLINVAR = CLINVAR_URL.split('/')[-1]
+
+rule main:
+    input: 'dbvar38.ann.tsv.gz', 'gencode.tsv.gz', 'pli.gene.tsv.gz'
+
+## Download files
+rule dwl_dbvar_37:
+    output: DBVAR37
+    shell: "wget -O {output} {DBVAR37_URL}"
+
+rule dwl_dbvar_38:
+    output: DBVAR38
+    shell: "wget -O {output} {DBVAR38_URL}"
+
+rule dwl_gnomadsv:
+    output: GNOMAD
+    shell: "wget -O {output} {GNOMAD_URL}"
+
+rule dwl_gencode:
+    output: GENCODE
+    shell: "wget -O {output} {GENCODE_URL}"
+
+rule dwl_clinsv:
+    output: CLINSV
+    shell: "wget -O {output} {CLINSV_URL}"
+
+rule dwl_pli:
+    output: PLI
+    shell: "wget -O {output} {PLI_URL}"
+
+rule dwl_clinvar:
+    output: CLINVAR
+    shell: "wget -O {output} {CLINVAR_URL}"
+
+## Extract dbvar variants for a chromosome from the full VCF
+rule get_dbvar_37_chr:
+    input: DBVAR37
+    output: 'dbvar37.{chr,[^.]+}.tsv'
+    shell: "python dbvar_extract.py -chr {wildcards.chr} -vcf {input} -out {output}"
+
+rule get_dbvar_38_chr:
+    input: DBVAR38
+    output: 'dbvar38.{chr,[^.]+}.tsv'
+    shell: "python dbvar_extract.py -chr {wildcards.chr} -vcf {input} -out {output}"
+
+## Associate an allele frequency from gnomAD-SV to each variant ID
+rule prep_gnomad_af:
+    input: GNOMAD
+    output: 'gnomad.af.tsv'
+    shell: 'Rscript prepare_gnomadsv_freq.R {input} {output}'
+
+rule annot_freq_chr:
+    input:
+        dbvar='dbvar37.{chr}.tsv',
+        gnomad='gnomad.af.tsv'
+    output: 'dbvar37.{chr}.id.af.tsv'
+    shell: 'Rscript annotate_freq.R {input} {output}'
+
+##
+## Annotate dbvar
+##
+
+## Annotate a chromosome
+rule annotate_dbvar_38_chr:
+    input:
+        dbvar='dbvar38.{chr}.tsv',
+        idaf='dbvar37.{chr}.id.af.tsv',
+        clinsv='clinsv.tsv.gz',
+        clinvar=CLINVAR
+    output: 'dbvar38.{chr,[^.]+}.ann.tsv'
+    shell: 'Rscript annotate_dbvar.R {input} {output}'
+
+## Merge per-chr annotation into sorted and bgziped TSV
+rule merge_dbvar:
+    input: expand('dbvar38.{chr}.ann.tsv', chr=CHRS)
+    output:
+        tsv='dbvar38.ann.tsv.gz',
+        tbi='dbvar38.ann.tsv.gz.tbi'
+    params:
+        tmp_tsv='dbvar38.ann.tsv'
+    shell:
+        """
+        cat {input} > {params.tmp_tsv}
+        sort -k1,1 -k2,2n -k3,3n {params.tmp_tsv} | bgzip > {output.tsv}
+        tabix -p bed {output.tsv}
+        rm {params.tmp_tsv}
+        """
+
+##
+## Other information
+##
+
+rule prep_gencode:
+    input: GENCODE
+    output: 'gencode.tsv.gz'
+    params: tmp = 'gencode.tsv'
+    shell:
+        """
+        Rscript prepare_gencode.R {input} {params.tmp}
+        gzip {params.tmp}
+        """
+
+rule prep_clinsv:
+    input: CLINSV
+    output: 'clinsv.tsv.gz'
+    shell:
+        "zcat {input} | grep -v '#' | cut -f1,37 | sort -u | gzip > {output}"
+
+rule prep_pli:
+    input: PLI
+    output: 'pli.gene.tsv.gz'
+    shell: "zcat {input} | cut -f 1,21 | gzip > {output}"
