@@ -1,24 +1,25 @@
 library(shiny)
 library(DT)
 library(shinydashboard)
+library(dplyr)
 
-data = list()
-data$all_variants = read.table('./all_variants_chr21.tsv', as.is=TRUE, header=TRUE, sep='\t')
-data$gene_variants = read.table('./variants.genes.chr21.tsv.gz', as.is=TRUE, header=TRUE, sep='\t')
+message('ui.R load genes')
+## genes.df = read.table('gencode.tsv.gz', as.is=TRUE, header=TRUE)
+## genes.df = genes.df %>% filter(chr %in% 1:2)
 
-## list all genes
-genes = unique(c(data$gene_variants$gene_id, data$gene_variants$gene_name, data$gene_variants$transcript_id))
-genes = unique(c('ENST00000400454.6', genes))
+## ## list all genes
+## genes = unique(c(genes.df$gene_id, genes.df$gene_name, genes.df$transcript_id))
+## ## genes = unique(c('ENST00000400454.6', genes))
 
 ## merge general variant info
-svtypes = sort(unique(data$all_variants$type))
-svsize.max = max(data$all_variants$end - data$all_variants$start)
+svtypes = c('DEL', 'DUP', 'INV', 'INS')
+svsize.max = 1e9
 
 ui <- dashboardPage(
   dashboardHeader(title='GeneVar'),
   dashboardSidebar(
-    selectizeInput('gene_search', 'Gene', genes),
-    div(p(' Search by gene name, gene id (ENSG...),, or transcript ID (ENST...)'),
+    textInput('gene_search', 'Gene', ''),
+    div(p(' Search by gene name, gene id (ENSG...), or transcript ID (ENST...)'),
         p(' Examples:'),
         p('  DSCAM'),
         p('  ENSG00000171587.15'),
