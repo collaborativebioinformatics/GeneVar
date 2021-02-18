@@ -1,7 +1,7 @@
 ## Trace
 
 ```
-snakemake -n dbvar38.ann.tsv.gz
+snakemake --cores 13 -p
 ```
 
 ## Subset dbVar variant to one chromosome
