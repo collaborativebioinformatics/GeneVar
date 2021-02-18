@@ -1,0 +1,6 @@
+*.gz
+*.tsv
+*.tbi
+*.txt
+*.bgz
+.snakemake
