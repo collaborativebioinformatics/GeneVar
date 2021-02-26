@@ -51,7 +51,7 @@ By default, allele frequency is reported based on gnomAD genomes and exomes.
 
 GeneVar is available on GitHub (https://github.com/collaborativebioinformatics/GeneVar). 
 The repository provides detailed instructions for tool usage and installation. 
-A bash script for an automated installation of the required dependencies is also provided as well as Docker.
+A bash script for an automated installation of the required dependencies is also provided as well as Docker (see [shinyapp](shinyapp)).
 For now, the webpage runs on 1 core server with 1 Gb RAM and needs less than 1 Gb of storage.
 
 ![](media/genevar-app-final.png)

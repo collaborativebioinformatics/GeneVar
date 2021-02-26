@@ -7,16 +7,18 @@ library(Rsamtools)
 library(GenomicRanges)
 library(stringdist)
 
+message('local files')
+message(list.files())
+
 message('load genes')
 genes.df = read.table('gencode.tsv.gz', as.is=TRUE, header=TRUE)
-genes.df = genes.df %>% filter(chr %in% 1:2)
 pli.df = read.table('pli.gene.tsv.gz', as.is=TRUE, header=TRUE)
 
 ## list all genes
 genes = unique(c(genes.df$gene_id, genes.df$gene_name, genes.df$transcript_id))
 ## genes = unique(c('ENST00000400454.6', genes))
 
-vars.tbx <- TabixFile('dbvar38.ann.tsv.gz')
+vars.tbx <- TabixFile('dbvar38.ann.tsv.gz', index='dbvar38.ann.tsv.gz.tbi')
 
 getVars <- function(chr, start, end){
   param <- GRanges(chr, IRanges(start, end))
@@ -71,26 +73,23 @@ dtify <- function(df){
 server <- function(input, output) {
   ## reactive conductor to extract gene name for a search
   geneName <- reactive({
-    message('Gene: ', input$gene_search)
+    message('Gene searched: ', input$gene_search)
     gene_name = input$gene_search
     ## if no genes selected, select first gene name
     if(gene_name == ''){
-      gene_name = head(genes.df$gene_name, 1)
+      gene_name = 'PCSK9'
     }
     if(all(gene_name != genes.df$gene_name)){
       gene.var = genes.df %>%
         filter(gene_id==input$gene_search | gene_name==input$gene_search | transcript_id==input$gene_search)
-      gene_name = head(gene.var$gene_name)
+      gene_name = head(gene.var$gene_name, 1)
     }
     if(length(gene_name) == 0) gene_name = ''
     return(gene_name)
   })
   ## reactive conductor to apply the filtering only once for all elements that need it
   selVars <- reactive({
-    genen = input$gene_search
-    if(genen == ''){
-      genen = head(genes.df$gene_name, 1)
-    }
+    genen = geneName()
     message('Gene: ', genen)
     ## find gene
     gene.sel = genes.df %>% filter(gene_id==genen | gene_name==genen | transcript_id==genen)
